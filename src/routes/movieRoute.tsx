@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { getMovies } from "../controllers/movieController";
+import { AddFavorite, GetFavorites } from "../controllers/movieController";
 
 const movieRoutes = Router();
-movieRoutes.post("/signup", getMovies);
+movieRoutes.post("/", AddFavorite);
+movieRoutes.get('/',GetFavorites)
 export { movieRoutes };

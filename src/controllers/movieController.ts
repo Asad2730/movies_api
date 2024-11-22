@@ -1,11 +1,22 @@
-import {type  Request,type Response } from "express"; 
-import { GetPaginatedMovies } from "../services/movieService";
+import { type Request, type Response } from "express";
+import { AddFavoriteService, GetFavoritesService } from "../services/movieService";
 
-export const getMovies = async (req: Request, res: Response) => {
+export const AddFavorite = async (req: Request, res: Response) => {
   try {
-    const page = parseInt(req.query.page as string) || 1; 
-    const paginatedMovies = await GetPaginatedMovies(page, 10);
-    res.json(paginatedMovies);
+    const rs = await AddFavoriteService(req.body);
+    res.json(rs);
+  } catch (error) {
+    res.json(error);
+  }
+};
+
+
+
+export const GetFavorites = async (req: Request, res: Response) => {
+  try {
+    const page = parseInt(req.query.page as string) || 1;
+    const favorites = await GetFavoritesService(page);
+    res.json(favorites);
   } catch (error) {
     res.json(error);
   }

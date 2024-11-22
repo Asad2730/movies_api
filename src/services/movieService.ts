@@ -1,44 +1,31 @@
-import Data from "../models/movie";
+import Favorite, { type IFavorites } from "../models/movie";
 
-export const GetPaginatedMovies = async (page: number = 1, limit: number = 10) => {
+export const AddFavoriteService = async (favourie: IFavorites) => {
   try {
+
+    await Favorite.create(favourie)
+    return Promise.resolve('Favorite markded');
+  } catch (error) {
+    return Promise.reject(`Error Adding Favorite`);
+  }
+};
+
+
+export const GetFavoritesService = async (page: number) => {
+  try {
+    const limit = 10;
     const skip = (page - 1) * limit;
 
-    const result = await Data.aggregate([
-      { $unwind: "$results" },
-      { $skip: skip },
-      { $limit: limit },
-      { 
-        $project: { 
-          "results.wrapperType": 1,
-          "results.kind": 1,
-          "results.artistName": 1,
-          "results.collectionName": 1,
-          "results.trackName": 1,
-          "results.collectionViewUrl": 1,
-          "results.trackViewUrl": 1,
-          "results.artworkUrl100": 1,
-          "results.releaseDate": 1,
-          "results.primaryGenreName": 1,
-          "results.shortDescription": 1,
-        }
-      } 
-    ]);
-
-    const totalRecords = await Data.aggregate([
-      { $unwind: "$results" },
-      { $count: "total" }
-    ]);
-
-    const totalPages = Math.ceil(totalRecords[0]?.total / limit);
+    const favorites = await Favorite.find().skip(skip).limit(limit);
+    const totalCount = await Favorite.countDocuments();
 
     return Promise.resolve({
-      data: result,
-      totalRecords: totalRecords[0]?.total,
-      totalPages,
+      favorites,
+      totalPages: Math.ceil(totalCount / limit),
       currentPage: page,
     });
   } catch (error) {
-    return Promise.reject(`Error fetching paginated movies: ${error}`);
+    return Promise.reject('Error Fetching Favorites');
   }
 };
+

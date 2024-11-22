@@ -1,6 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-interface IResult extends Document {
+export interface IFavorites extends Document {
   wrapperType: string;
   kind: string;
   collectionId: number;
@@ -39,13 +39,8 @@ interface IResult extends Document {
   hasITunesExtras: boolean;
 }
 
-interface IData extends Document {
-  _id: mongoose.Types.ObjectId;
-  resultCount: number;
-  results: IResult[];
-}
 
-const ResultSchema: Schema = new Schema({
+const FavoriteSchema: Schema = new Schema({
   wrapperType: { type: String, required: true },
   kind: { type: String, required: true },
   collectionId: { type: Number, required: true },
@@ -84,11 +79,7 @@ const ResultSchema: Schema = new Schema({
   hasITunesExtras: { type: Boolean, required: true },
 });
 
-const DataSchema: Schema = new Schema({
-  _id: { type: mongoose.Types.ObjectId, required: true },
-  resultCount: { type: Number, required: true },
-  results: { type: [ResultSchema], required: true },
-});
+FavoriteSchema.index({ trackId: 1 });
 
-const Data = mongoose.model<IData>("movies", DataSchema);
-export default Data;
+const Favorite = mongoose.model<IFavorites>("movies", FavoriteSchema);
+export default Favorite;

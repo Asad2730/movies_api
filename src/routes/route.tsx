@@ -6,5 +6,5 @@ import { verifyToken } from "../middlewares/authMiddleware";
 const router = Router();
 
 router.use("/auth", authRoutes);
-router.use("/movies", verifyToken, movieRoutes);
+router.use("/favorites", verifyToken, movieRoutes);
 export default router;
