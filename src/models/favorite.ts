@@ -81,5 +81,5 @@ const FavoriteSchema: Schema = new Schema({
 
 FavoriteSchema.index({ trackId: 1 });
 
-const Favorite = mongoose.model<IFavorites>("movies", FavoriteSchema);
+const Favorite = mongoose.model<IFavorites>("favorite", FavoriteSchema);
 export default Favorite;

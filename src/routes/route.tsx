@@ -1,10 +1,10 @@
 import { Router } from "express";
 import { authRoutes } from "./authRoute";
-import { movieRoutes } from "./movieRoute";
+import { favoriteRoutes } from "./favoriteRoute";
 import { verifyToken } from "../middlewares/authMiddleware";
 
 const router = Router();
 
 router.use("/auth", authRoutes);
-router.use("/favorites", verifyToken, movieRoutes);
+router.use("/favorites", verifyToken, favoriteRoutes);
 export default router;

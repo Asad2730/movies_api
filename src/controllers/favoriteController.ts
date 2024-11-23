@@ -1,5 +1,5 @@
 import { type Request, type Response } from "express";
-import { AddFavoriteService, GetFavoritesService } from "../services/movieService";
+import { AddFavoriteService, GetFavoriteService, GetFavoritesService } from "../services/favoriteService";
 
 export const AddFavorite = async (req: Request, res: Response) => {
   try {
@@ -21,3 +21,14 @@ export const GetFavorites = async (req: Request, res: Response) => {
     res.json(error);
   }
 };
+
+
+export const GetFavorite = async(req:Request,res:Response) => {
+  try{
+     const id = req.params.id;
+     const favorite = await GetFavoriteService(id);
+     res.json(favorite)
+  }catch(error){
+    res.json(error)
+  }
+}
