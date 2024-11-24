@@ -60,7 +60,7 @@ export const LoginService = async (email: string, password: string) => {
     }
 
     const token = generateToken(user.email) 
-    return { user, token };
+    return token
   } catch (error) {
     throw new Error(`Error in LoginService: ${error}`);
   }

@@ -12,9 +12,7 @@ declare module 'express-serve-static-core' {
     }
 }
 
-export const generateToken = (email: string) => {
-    return jwt.sign({ email: email }, secret, { expiresIn: '2hr' })
-}
+export const generateToken = (email: string) =>  jwt.sign({ email: email }, secret, { expiresIn: '2h' })
 
 export function verifyToken(req: Request, res: Response, next: NextFunction) {
 
