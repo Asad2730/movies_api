@@ -8,7 +8,7 @@ export const AddFavoriteService = async (favorite: IFavorites) => {
     if (res) {
       return { success: true, message: 'Favorite marked', data: res };
     } else {
-      throw new Error('Failed to create favorite, no response from database');
+      throw new Error('Failed to create favorite, no response from database.');
     }
   } catch (error) {
     throw new Error(`Error adding favorite: ${error}`);
