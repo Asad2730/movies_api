@@ -3,11 +3,9 @@ import Favorite, { type IFavorites } from "../models/favorite";
 
 export const AddFavoriteService = async (favorite: IFavorites) => {
   try {
-    console.log('fav', favorite)
+  
     const res = await Favorite.create(favorite);
-    console.log(res, '....this')
     if (res) {
-      console.log('Favorite successfully added:', res);
       return { success: true, message: 'Favorite marked', data: res };
     } else {
       throw new Error('Failed to create favorite, no response from database');

@@ -12,23 +12,28 @@ declare module 'express-serve-static-core' {
     }
 }
 
-export const generateToken = (email: string) =>  jwt.sign({ email: email }, secret, { expiresIn: '2h' })
+export const generateToken = (email: string) => jwt.sign({ email: email }, secret, { expiresIn: '2h' })
+
 
 export function verifyToken(req: Request, res: Response, next: NextFunction) {
+    const authHeader = req.header('Authorization');
 
-    const token = req.header('Authorization');
-    if (!token) {
-        res.json({ error: 'Access denied' });
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        res.status(403).json({ error: 'Access denied, token missing or invalid format' });
         return
     }
+
+    const token = authHeader.split(' ')[1];
+
     try {
         const decoded = jwt.verify(token, secret) as JwtPayload;
         req.email = decoded.email;
         next();
     } catch (error) {
-        res.json({ error: 'Invalid token' });
+        res.status(401).json({ error: `Invalid token: ${error}` });
     }
 };
+
 
 
 

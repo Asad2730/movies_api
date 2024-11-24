@@ -1,6 +1,4 @@
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 import type { IUser } from '../models/user';
 import User from '../models/user';
 import { isValidEmail, isPasswordValid, generateToken } from '../middlewares/authMiddleware';
