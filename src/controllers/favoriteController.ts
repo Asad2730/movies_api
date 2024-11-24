@@ -3,7 +3,8 @@ import { AddFavoriteService, GetFavoriteService, GetFavoritesService } from "../
 
 export const AddFavorite = async (req: Request, res: Response) => {
   try {
-    const rs = await AddFavoriteService(req.body);
+    console.log('req.body',req.body)
+    const rs = await AddFavoriteService(req.body)
     res.json(rs);
   } catch (error) {
     res.json(error);

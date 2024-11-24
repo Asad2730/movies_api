@@ -3,11 +3,9 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import type { IUser } from '../models/user';
 import User from '../models/user';
-import { isValidEmail, isPasswordValid } from '../middlewares/authMiddleware';
+import { isValidEmail, isPasswordValid, generateToken } from '../middlewares/authMiddleware';
 
-dotenv.config();
 
-const secret: string = process.env.JWT_SECRET as string;
 
 export const RegisterService = async (user: IUser) => {
   try {
@@ -61,8 +59,7 @@ export const LoginService = async (email: string, password: string) => {
       throw new Error('Authentication failed! Invalid password');
     }
 
-    const token: string = jwt.sign({ userId: user.id }, secret, { expiresIn: '2hr' });
-
+    const token = generateToken(user.email) 
     return { user, token };
   } catch (error) {
     throw new Error(`Error in LoginService: ${error}`);

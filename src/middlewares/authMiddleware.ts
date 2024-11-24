@@ -1,35 +1,40 @@
-import type { NextFunction, Request, Response } from 'express';
-import jwt, { type JwtPayload } from 'jsonwebtoken';
+import { type NextFunction,type Request,type Response } from 'express';
+import jwt, {type JwtPayload } from 'jsonwebtoken';
 import dotenv from 'dotenv';
+
 dotenv.config();
 
-const secret: string = process.env.JWT_SECRET as string
+const secret: string = process.env.JWT_SECRET as string;
 
 declare module 'express-serve-static-core' {
     interface Request {
-        userId?: string;
+        email?: string;
     }
 }
 
+export const  generateToken = (email: string)=> {
+    const payload = { email };
+    const options = { expiresIn: '1h' }; 
+    return jwt.sign(payload, secret, options);
+}
 
-
-export function verifyToken(req: Request, res: Response, next: NextFunction) {
-
+export const verifyToken = (req: Request, res: Response, next: NextFunction) =>{
     const token = req.header('Authorization');
     if (!token) {
-        res.json({ error: 'Access denied' });
-        return
+         res.json({ error: 'Access denied. No token provided.' });
+         return
     }
+
     try {
         const decoded = jwt.verify(token, secret) as JwtPayload;
-        req.userId = decoded.userId;
+        req.email = decoded.email;
         next();
-        return
     } catch (error) {
-        res.json({ error: 'Invalid token' });
-        return
+        console.error('Token verification failed:', error);
+         res.json({ error: 'Invalid token' });
+         return
     }
-};
+}
 
 export const isValidEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
