@@ -18,6 +18,5 @@ if (!db_uri) {
    app.listen(port,()=>console.log(`Server running on port ${port}`))
   }catch(ex){
     console.error(`Error ${ex}`)
-    process.exit(1)
   }
 })();  
