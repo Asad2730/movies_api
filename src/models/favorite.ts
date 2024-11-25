@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import type { IUser } from "./user";
 
 export interface IFavorites extends Document {
   wrapperType: string;
@@ -37,6 +38,7 @@ export interface IFavorites extends Document {
   shortDescription: string;
   longDescription: string;
   hasITunesExtras: boolean;
+  userId:IUser['_id'];
 }
 
 
@@ -77,6 +79,7 @@ const FavoriteSchema: Schema = new Schema({
   shortDescription: { type: String },
   longDescription: { type: String },
   hasITunesExtras: { type: Boolean },
+  userId: { type: Schema.Types.ObjectId, ref: "users", required: true },
 });
 
 FavoriteSchema.index({ trackId: 1 });

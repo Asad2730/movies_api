@@ -58,7 +58,7 @@ export const LoginService = async (email: string, password: string) => {
     }
 
     const token = generateToken(user.email) 
-    return token
+    return {user,token}
   } catch (error) {
     throw new Error(`Error in LoginService: ${error}`);
   }
